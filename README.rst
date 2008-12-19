@@ -446,46 +446,30 @@ Official API documentation at http://api.votesmart.org/docs/Rating.html
 ``getCategories(stateId=None)`` gets a list of Category objects for a given
 state (national if no state provided).
 
-Example of getting all issue categories for New York:
+Example of getting a few of the issue categories for New York:
 
-    >>> for category in votesmart.rating.getCategories('NY'):
+    >>> for category in votesmart.rating.getCategories('NY')[0:5]:
     ...     print category
     2: Abortion Issues
     5: Animal Rights and Wildlife Issues
     11: Business and Consumers
     13: Civil Liberties and Civil Rights
     17: Conservative
-    30: Environmental Issues
-    36: Government Reform
-    37: Gun Issues
-    43: Labor
-    45: Liberal
-    54: Social Issues
-    68: Women's Issues
 
 ``getSigList(categoryId, stateId=None)`` gets a list of Sig objects representing
 all special interest groups associated with a particular category.  Optionally
 a state can be provided to restrict results to a SIG operating within a
 particular state.
 
-Example of getting groups concerned with Environmental Issues:
+Example of getting a few groups concerned with Environmental Issues:
 
-    >>> for sig in votesmart.rating.getSigList(30):
+    >>> for sig in votesmart.rating.getSigList(30)[0:5]:
     ...     print sig
     916: American Land Rights Association
     934: American Lands Alliance
     1081: American Wilderness Coalition
     1702: American Wind Energy Association
     1107: California Park & Recreation Society
-    77: Competitive Enterprise Institute - Environment
-    966: Comprehensive US Sustainable Population
-    109: Defenders of Wildlife Action Fund
-    1826: Environment America
-    1012: League of Conservation Voters
-    922: National Parks Conservation Association
-    1716: Partnership for America
-    664: Republicans for Environmental Protection
-    657: Sierra Club
 
 ``getSig(sigId)`` gets all details available for a special interest group.
 
@@ -535,4 +519,87 @@ Example of getting several details about the state of Virginia:
 votes methods
 -------------
 
-Official API documentation at 
+Official API documentation at http://api.votesmart.org/docs/Votes.html
+
+``getCategories(year, stateId=None)`` gets a list of Category objects for a
+given year and optionally a state (national if no state provided).
+
+Example of getting a few of the national bill categories for 2008:
+
+    >>> for category in votesmart.votes.getCategories(2008)[0:5]:
+    ...     print category
+    2: Abortion Issues
+    4: Agriculture Issues
+    5: Animal Rights and Wildlife Issues
+    10: Budget, Spending and Taxes
+    11: Business and Consumers
+
+``getBill(billId)`` returns a BillDetail object providing details on a particular
+bill.
+
+Example of getting details on HR 7321 Auto Industry Financing bill:
+
+    >>> bill = votesmart.votes.getBill(8528)
+    >>> print bill.officialTitle
+    HR 7321:  To authorize financial assistance to eligible automobile manufacturers, and for other purposes.
+    >>> for sponsor in bill.sponsors:
+    ...     print sponsor
+    Barney  Frank
+    >>> for action in bill.actions:
+    ...     print action
+    2008-12-10 - Passage
+    
+
+``getBillAction(actionId)`` returns a BillAction object providing details on
+a particular action taken on a bill.
+
+Example of getting details on an action for HR 5576:
+
+    >>> print votesmart.votes.getBillAction(8272)
+    HR 5576: Making appropriations for the Departments of Transportation, Treasury, and Housing and Urban Development, the Judiciary, District of Columbia, and independent agencies for the fiscal year ending September 30, 2007, and for other purposes.
+
+``getBillActionVotes(actionId)`` and
+``getBillActionVoteByOfficial(actionId, candidateId)`` retrieve lists of Vote
+objects for a given action (and official).
+
+Example of getting Nancy Pelosi's vote on passage of HR 7321:
+
+    >>> print votesmart.votes.getBillActionVoteByOfficial(23069, 26732)
+    Pelosi, Nancy: Yea
+
+
+There are 7 methods that return Bill objects based on various parameters:
+
+* ``getBillsByCategoryYearState(categoryId, year, stateId=None)``
+* ``getBillsByYearState(year, stateId=None)``
+* ``getBillsByOfficialYearOffice(candidateId, year, officeId=None)``
+* ``getBillsByCandidateCategoryOffice(candidateId, categoryId, officeId=None)``
+* ``getBillsBySponsorYear(candidateId, year)``
+* ``getBillsBySponsorCategory(candidateId, categoryId)``
+* ``getBillsByStateRecent(stateId=None, amount=None)``
+
+Example of getting a few recently tracked bills for 2008:
+
+    >>> for bill in votesmart.votes.getBillsByYearState(2008)[-5:]:
+    ...     print bill
+    HR 7081 
+    HR 2095 Amtrak Reauthorization
+    HR 2095 
+    HR 6867 Emergency Extended Unemployment Compensation
+    HR 7321 Auto Industry Financing
+
+
+``getVetoes(candidateId)`` returns all vetoes for a particular executive.
+
+Example of getting all of George W. Bush's vetoes:
+
+    >>> for veto in votesmart.votes.getVetoes(22369):
+    ...     print veto
+    HR 6331 Medicare Bill
+    HR 6124 Second Farm, Nutrition, and Bioenergy Act of 2007 (Farm Bill)
+    HR 2419 Farm, Nutrition, and Bioenergy Act of 2007 (Farm Bill)
+    HR 1585 
+    HR 3963 Children's Health Insurance Program Reauthorization Act of 2007 (CHIP)
+    HR 976 State Children's Health Insurance Program (CHIP) Reauthorization
+    S 5 Stem Cell Research Act of 2007
+    HR 1591 Emergency Supplemental Appropriations Bill of 2007 with Iraq Withdrawal Timeline

@@ -1,2 +1,2 @@
 import doctest
-doctest.testfile('README.rst', verbose= True)
+doctest.testfile('README.rst', verbose=False)

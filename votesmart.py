@@ -139,13 +139,51 @@ class State(VotesmartApiObject):
 class StateDetail(VotesmartApiObject):
     def __str__(self):
         return ' '.join((self.stateId, self.name))
+    
+class BillSponsor(VotesmartApiObject):
+    def __str__(self):
+        return self.name
+    
+class BillAction(VotesmartApiObject):
+    def __str__(self):
+        return ' - '.join((self.statusDate, self.stage))
+    
+class BillAmendment(VotesmartApiObject):
+    def __str__(self):
+        return self.title
+    
+class BillDetail(VotesmartApiObject):
+    def __init__(self, d):
+        sponsors = d.pop('sponsors')
+        actions = d.pop('actions')
+        amendments = d.pop('ammendments')  # ammendments -- sic
+        self.sponsors = _result_to_obj(BillSponsor, sponsors['sponsor'])
+        self.actions = _result_to_obj(BillAction, actions['action'])
+        if amendments:
+            self.amendments = _result_to_obj(BillAmendment, actions['ammendment'])
+        self.__dict__.update(d)
+
+class BillActionDetail(VotesmartApiObject):
+    def __str__(self):
+        return self.officialTitle
+
+class Bill(VotesmartApiObject):
+    def __str__(self):
+        return ' '.join((self.billNumber, self.title))
+        
+class Vote(VotesmartApiObject):
+    def __str__(self):
+        return ': '.join((self.candidateName, self.action))
+    
+class Veto(VotesmartApiObject):
+    def __str__(self):
+        return ' '.join((self.billNumber, self.billTitle))
 
 def _result_to_obj(cls, result):
     if isinstance(result, dict):
         return [cls(result)]
     else:
         return [cls(o) for o in result]
-    
 
 class votesmart(object):
     
@@ -468,64 +506,77 @@ class votesmart(object):
         @staticmethod
         def getCategories(year, stateId=None):
             params = {'year':year, 'stateId':stateId}
-            result = votesmart._apicall('getCategories', params)['categories']['category']
+            result = votesmart._apicall('Votes.getCategories', params)
+            return _result_to_obj(Category, result['categories']['category'])
             
         @staticmethod
         def getBill(billId):
             params = {'billId':billId}
-            result = votesmart._apicall('getBill', params)['bill']
+            result = votesmart._apicall('Votes.getBill', params)
+            return BillDetail(result['bill'])
         
         @staticmethod
         def getBillAction(actionId):
             params = {'actionId':actionId}
-            result = votesmart._apicall('getBillAction', params)['action']
+            result = votesmart._apicall('Votes.getBillAction', params)
+            return BillActionDetail(result['action'])
         
         @staticmethod
         def getBillActionVotes(actionId):
             params = {'actionId':actionId}
-            result = votesmart._apicall('getBillActionVotes', params)['votes']['vote']
+            result = votesmart._apicall('Votes.getBillActionVotes', params)
+            return _result_to_obj(Vote, result['votes']['vote'])
         
         @staticmethod
         def getBillActionVoteByOfficial(actionId, candidateId):
             params = {'actionId':actionId, 'candidateId':candidateId}
-            result = votesmart._apicall('getBillActionVoteByOfficial', params)['bills']['bill']
+            result = votesmart._apicall('Votes.getBillActionVoteByOfficial', params)
+            return Vote(result['votes']['vote'])
             
         @staticmethod
         def getBillsByCategoryYearState(categoryId, year, stateId=None):
             params = {'categoryId':categoryId, 'year':year, 'stateId':stateId}
-            result = votesmart._apicall('getBillsByCategoryYearState', params)['bills']['bill']
+            result = votesmart._apicall('Votes.getBillsByCategoryYearState', params)
+            return _result_to_obj(Bill, result['bills']['bill'])
             
         @staticmethod
         def getBillsByYearState(year, stateId=None):
             params = {'year':year, 'stateId':stateId}
-            result = votesmart._apicall('getBillsByYearState', params)['bills']['bill']
+            result = votesmart._apicall('Votes.getBillsByYearState', params)
+            return _result_to_obj(Bill, result['bills']['bill'])
             
         @staticmethod
         def getBillsByOfficialYearOffice(candidateId, year, officeId=None):
             params = {'candidateId':candidateId, 'year':year, 'officeId':officeId}
-            result = votesmart._apicall('getBillsByOfficialYearOffice', params)['bills']['bill']
+            result = votesmart._apicall('Votes.getBillsByOfficialYearOffice', params)
+            return _result_to_obj(Bill, result['bills']['bill'])
             
         @staticmethod
         def getBillsByCandidateCategoryOffice(candidateId, categoryId, officeId=None):
             params = {'candidateId':candidateId, 'categoryId':categoryId, 'officeId':officeId}
-            result = votesmart._apicall('getBillsByCandidateCategoryOffice', params)['bills']['bill']
+            result = votesmart._apicall('Votes.getBillsByCandidateCategoryOffice', params)
+            return _result_to_obj(Bill, result['bills']['bill'])
             
         @staticmethod
         def getBillsBySponsorYear(candidateId, year):
             params = {'candidateId':candidateId, 'year':year}
-            result = votesmart._apicall('getBillsBySponsorYear', params)['bills']['bill']
+            result = votesmart._apicall('Votes.getBillsBySponsorYear', params)
+            return _result_to_obj(Bill, result['bills']['bill'])
             
         @staticmethod
         def getBillsBySponsorCategory(candidateId, categoryId):
             params = {'candidateId':candidateId, 'categoryId':categoryId}
-            result = votesmart._apicall('getBillsBySponsorCategory', params)['bills']['bill']
+            result = votesmart._apicall('Votes.getBillsBySponsorCategory', params)
+            return _result_to_obj(Bill, result['bills']['bill'])
         
         @staticmethod    
         def getBillsByStateRecent(stateId=None, amount=None):
             params = {'stateId':stateId, 'amount':amount}
-            result = votesmart._apicall('getBillsByStateRecent', params)['bills']['bill']
+            result = votesmart._apicall('Votes.getBillsByStateRecent', params)
+            return _result_to_obj(Bill, result['bills']['bill'])
                 
         @staticmethod
         def getVetoes(candidateId):
             params = {'candidateId': candidateId}
-            result = votesmart._apicall('getVetoes', params)['vetoes']['veto']
+            result = votesmart._apicall('Votes.getVetoes', params)
+            return _result_to_obj(Veto, result['vetoes']['veto'])
