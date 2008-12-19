@@ -99,6 +99,22 @@ class Measure(VotesmartApiObject):
 class MeasureDetail(VotesmartApiObject):
     def __str__(self):
         return self.title
+
+class OfficeType(VotesmartApiObject):
+    def __str__(self):
+        return ': '.join((self.officeTypeId, self.name))
+    
+class OfficeBranch(VotesmartApiObject):
+    def __str__(self):
+        return ': '.join((self.officeBranchId, self.name))
+    
+class OfficeLevel(VotesmartApiObject):
+    def __str__(self):
+        return ': '.join((self.officeLevelId, self.name))
+    
+class Office(VotesmartApiObject):
+    def __str__(self):
+        return self.name
     
 def _result_to_obj(cls, result):
     if isinstance(result, dict):
@@ -334,36 +350,43 @@ class votesmart(object):
     
     class office(object):
         @staticmethod
-        def getTypes(self):
-            result = votesmart._apicall('getTypes', {})['officeTypes']['type']
+        def getTypes():
+            result = votesmart._apicall('Office.getTypes', {})
+            return [OfficeType(o) for o in result['officeTypes']['type']]
         
         @staticmethod
-        def getBranches(self):
-            result = votesmart._apicall('getBranches', {})['branches']['branch']
+        def getBranches():
+            result = votesmart._apicall('Office.getBranches', {})
+            return [OfficeBranch(o) for o in result['branches']['branch']]
     
         @staticmethod
-        def getLevels(self):
-            result = votesmart._apicall('getLevels', {})['levels']['level']
+        def getLevels():
+            result = votesmart._apicall('Office.getLevels', {})
+            return [OfficeLevel(o) for o in result['levels']['level']]
     
         @staticmethod
         def getOfficesByType(typeId):
             params = {'typeId':typeId}
-            result = votesmart._apicall('getOfficesByType', params)['offices']['office']
+            result = votesmart._apicall('Office.getOfficesByType', params)
+            return _result_to_obj(Office, result['offices']['office'])
             
         @staticmethod
         def getOfficesByLevel(levelId):
             params = {'levelId':levelId}
-            result = votesmart._apicall('getOfficesByLevel', params)['offices']['office']
+            result = votesmart._apicall('Office.getOfficesByLevel', params)
+            return _result_to_obj(Office, result['offices']['office'])
             
         @staticmethod
         def getOfficesByTypeLevel(typeId, levelId):
             params = {'typeId':typeId, 'levelId':levelId}
-            result = votesmart._apicall('getOfficesByTypeLevel', params)['offices']['office']
+            result = votesmart._apicall('Office.getOfficesByTypeLevel', params)
+            return _result_to_obj(Office, result['offices']['office'])
             
         @staticmethod
         def getOfficesByBranchLevel(branchId, levelId):
             params = {'branchId':branchId, 'levelId':levelId}
-            result = votesmart._apicall('getOfficesByBranchLevel', params)['offices']['office']
+            result = votesmart._apicall('Office.getOfficesByBranchLevel', params)
+            return _result_to_obj(Office, result['offices']['office'])
                 
     class officials(object):
         @staticmethod

@@ -359,7 +359,62 @@ Example of checking John McCain's NPAT:
 office methods
 --------------
 
-Official API documentation at 
+Official API documentation at http://api.votesmart.org/docs/Office.html
+
+``getTypes()`` gets a list of OfficeType objects representing all office types
+that the PVS API tracks.
+
+Example call:
+
+    >>> for type in votesmart.office.getTypes():
+    ...     print type
+    P: Presidential and Cabinet
+    C: Congressional
+    J: Supreme Court
+    G: Governor and Cabinet
+    K: State Judicial
+    L: State Legislature
+    S: State Wide
+    H: Local Judicial
+    N: Local Legislative
+    M: Local Executive
+
+``getBranches()`` gets a list of OfficeBranch objects representing all branches
+that the PVS API tracks.
+
+Example call:
+
+    >>> for branch in votesmart.office.getBranches():
+    ...     print branch
+    E: Executive
+    L: Legislative
+    J: Judicial
+
+``getLevels()`` gets a list of all OfficeLevel objects representing all office
+levels that the PVS API tracks.
+
+Example call:
+
+    >>> for level in votesmart.office.getLevels():
+    ...     print level
+    F: Federal
+    S: State
+    L: Local
+
+``getOfficesByType(typeId)``, ``getOfficesByLevel(levelId)``,
+``getOfficesByTypeLevel(typeId, levelId)``, and 
+``getOfficesByBranchLevel(branchId, levelId)`` return a list of Office objects
+based on the provided parameters.
+
+Example of getting all Executive titles for the Local level:
+
+    >>> for office in votesmart.office.getOfficesByBranchLevel('E', 'L'):
+    ...     print office
+    Freeholder
+    Mayor
+    Public Advocate
+    Council
+    Comptroller
 
 -----------------
 officials methods
