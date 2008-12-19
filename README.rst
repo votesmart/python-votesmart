@@ -441,13 +441,95 @@ Example of fetching all candidates for the MN Senate race:
 rating methods
 --------------
 
-Official API documentation at 
+Official API documentation at http://api.votesmart.org/docs/Rating.html
+
+``getCategories(stateId=None)`` gets a list of Category objects for a given
+state (national if no state provided).
+
+Example of getting all issue categories for New York:
+
+    >>> for category in votesmart.rating.getCategories('NY'):
+    ...     print category
+    2: Abortion Issues
+    5: Animal Rights and Wildlife Issues
+    11: Business and Consumers
+    13: Civil Liberties and Civil Rights
+    17: Conservative
+    30: Environmental Issues
+    36: Government Reform
+    37: Gun Issues
+    43: Labor
+    45: Liberal
+    54: Social Issues
+    68: Women's Issues
+
+``getSigList(categoryId, stateId=None)`` gets a list of Sig objects representing
+all special interest groups associated with a particular category.  Optionally
+a state can be provided to restrict results to a SIG operating within a
+particular state.
+
+Example of getting groups concerned with Environmental Issues:
+
+    >>> for sig in votesmart.rating.getSigList(30):
+    ...     print sig
+    916: American Land Rights Association
+    934: American Lands Alliance
+    1081: American Wilderness Coalition
+    1702: American Wind Energy Association
+    1107: California Park & Recreation Society
+    77: Competitive Enterprise Institute - Environment
+    966: Comprehensive US Sustainable Population
+    109: Defenders of Wildlife Action Fund
+    1826: Environment America
+    1012: League of Conservation Voters
+    922: National Parks Conservation Association
+    1716: Partnership for America
+    664: Republicans for Environmental Protection
+    657: Sierra Club
+
+``getSig(sigId)`` gets all details available for a special interest group.
+
+Example getting all details for Sierra Club:
+
+    >>> sig = votesmart.rating.getSig(657)
+    >>> print sig.address, sig.city, sig.state
+    408 C Street, Northeast Washington DC
+    
+``getCandidateRating(candidateId, sigId)`` gets a Rating object representing
+a candidate's rating by a particular special interest group.
+
+Example checking how Sierra Club rated Nancy Pelosi:
+
+    >>> for rating in votesmart.rating.getCandidateRating(26732, 657):
+    ...     print rating
+    Representative Nancy Pelosi supported the interests of the Sierra Club 100 percent in 2003.
 
 -------------
 state methods
 -------------
 
-Official API documentation at 
+Official API documentation at http://api.votesmart.org/docs/State.html
+
+``getStateIDs()`` returns State objects for all states (and state-like entities)
+
+Example of printing a few of the states returned from getStateIds:
+
+    >>> for state in votesmart.state.getStateIDs()[0:5]:
+    ...     print state
+    NA National
+    AS American Samoa
+    FL Florida
+    MI Michigan
+    MO Missouri
+
+``getState(stateId)`` returns a StateDetail object with all known details on
+a given state.
+
+Example of getting several details about the state of Virginia:
+
+    >>> va = votesmart.state.getState('VA')
+    >>> print va.population, va.motto
+    6,187,358 (1990) Sic Semper Tyrannis [Thus Always to Tyrants]
 
 -------------
 votes methods
