@@ -187,7 +187,7 @@ def _result_to_obj(cls, result):
 
 class votesmart(object):
     
-    apikey = '496ec1875a7885ec65a4ead99579642c'
+    apikey = None
     
     @staticmethod
     def _apicall(func, params):

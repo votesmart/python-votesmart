@@ -50,7 +50,7 @@ Import ``votesmart`` from ``votesmart``:
     
 And set your API key:
 
-    >>> votesmart.apikey = '496ec1875a7885ec65a4ead99579642c'
+    >>> votesmart.apikey = '<<SET API KEY HERE>>'
 
 ---------------
 address methods

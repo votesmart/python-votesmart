@@ -1,6 +1,8 @@
 from distutils.core import setup
 from votesmart import __version__,__license__,__doc__
 
+long_description = open('README.rst').read()
+
 setup(name="python-votesmart",
       version=__version__,
       py_modules=["votesmart"],
@@ -9,7 +11,7 @@ setup(name="python-votesmart",
       author_email = "jturk@sunlightfoundation.com",
       license=__license__,
       url="http://github.com/sunlightlabs/python-votesmart/",
-      long_description=__doc__,
+      long_description=long_description,
       platforms=["any"],
       classifiers=["Development Status :: 3 - Alpha",
                    "Intended Audience :: Developers",
