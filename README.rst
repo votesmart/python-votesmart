@@ -420,7 +420,22 @@ Example of getting all Executive titles for the Local level:
 officials methods
 -----------------
 
-Official API documentation at 
+Official API documentation at http://api.votesmart.org/docs/Officials.html
+
+* ``getByOfficeState(officeId, stateId=None)``
+* ``getByLastname(lastName)``
+* ``getByLevenstein(lastName)``
+* ``getByElection(electionId)``
+* ``getByDistrict(districtId)``
+
+All five methods return a list containing one or more Candidate objects.
+
+Example of fetching all candidates for the MN Senate race:
+
+    >>> for official in votesmart.officials.getByOfficeState(6, 'CA'):
+    ...    print official
+    Senator Barbara Boxer
+    Senator Dianne Feinstein
 
 --------------
 rating methods
