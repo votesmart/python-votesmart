@@ -66,6 +66,45 @@ class CommitteeMember(VotesmartApiObject):
 class District(VotesmartApiObject):
     def __str__(self):
         return self.name
+    
+class Election(VotesmartApiObject):
+    def __init__(self, d):
+        stages = [ElectionStage(s) for s in d.pop('stage')]
+        self.__dict__ = d
+        self.stages = stages
+    
+    def __str__(self):
+        return self.name
+    
+class ElectionStage(VotesmartApiObject):
+    def __str__(self):
+        return '%s (%s)' % (self.name, self.electionDate)    
+
+class Official(VotesmartApiObject):
+    def __str__(self):
+        return ' '.join((self.title, self.firstName, self.lastName))
+    
+class LeadershipPosition(VotesmartApiObject):
+    def __str__(self):
+        return self.name
+    
+class Locality(VotesmartApiObject):
+    def __str__(self):
+        return self.name
+    
+class Measure(VotesmartApiObject):
+    def __str__(self):
+        return self.title
+    
+class MeasureDetail(VotesmartApiObject):
+    def __str__(self):
+        return self.title
+    
+def _result_to_obj(cls, result):
+    if isinstance(result, dict):
+        return [cls(result)]
+    else:
+        return [cls(o) for o in result]
 
 class votesmart(object):
     
@@ -122,11 +161,11 @@ class votesmart(object):
             result = votesmart._apicall('Address.getOfficeWebAddress', params)
             return [WebAddress(o) for o in result['webaddress']['address']]
                 
-        @staticmethod
-        def getOfficeByOfficeState(officeId, stateId=None):
-            params = {'officeId': officeId, 'stateId': stateId}
-            result = votesmart._apicall('Address.getOfficeByOfficeState', params)
-            return [Address(o) for o in result['address']['office']]
+        #@staticmethod
+        #def getOfficeByOfficeState(officeId, stateId=None):
+        #    params = {'officeId': officeId, 'stateId': stateId}
+        #    result = votesmart._apicall('Address.getOfficeByOfficeState', params)
+        #    return [Address(o) for o in result['address']['office']]
             
     class candidatebio(object):
         @staticmethod
@@ -224,65 +263,74 @@ class votesmart(object):
         @staticmethod
         def getElection(electionId):
             params = {'electionId':electionId}
-            result = votesmart._apicall('getElection', params)['elections']['election']
+            result = votesmart._apicall('Election.getElection', params)
+            return Election(result['elections']['election'])
             
         @staticmethod
         def getElectionByYearState(year, stateId=None):
-            params = {'year':year}
-            if stateId:
-                params['stateId'] = stateId
-            result = votesmart._apicall('getElectionByYearState', params)['elections']['election']
+            params = {'year':year, 'stateId':stateId}
+            result = votesmart._apicall('Election.getElectionByYearState', params)
+            return _result_to_obj(Election, result['elections']['election'])
             
-        @staticmethod
-        def getStageCandidates(electionId, stageId,
-                               party=None, districtId=None, stateId=None):
-            params = {'electionId':electionId, 'stageId':stageId, 'party':party,
-                      'districtId':districtId, 'stateId':stateId}
-            result = votesmart._apicall('getElectionByYearState', params)['stageCandidates']['candidate']
+        #@staticmethod
+        #def getStageCandidates(electionId, stageId,
+        #                       party=None, districtId=None, stateId=None):
+        #    params = {'electionId':electionId, 'stageId':stageId, 'party':party,
+        #              'districtId':districtId, 'stateId':stateId}
+        #    result = votesmart._apicall('Election.getElectionByYearState', params)
+        #    ['stageCandidates']['candidate']
         
     class leadership(object):
         @staticmethod
         def getPositions(stateId=None, officeId=None):
             params = {'stateId':stateId, 'officeId':officeId}
-            result = votesmart._apicall('getPositions', params)['leadership']['position']
+            result = votesmart._apicall('Leadership.getPositions', params)
+            return [LeadershipPosition(o) for o in result['leadership']['position']]
                 
-        @staticmethod
-        def getCandidates(leadershipId, stateId=None):
-            params = {'leadershipId':leadershipId, 'stateId':stateId}
-            result = votesmart._apicall('getCandidates', params)['leaders']['leader']
+        #@staticmethod
+        #def getCandidates(leadershipId, stateId=None):
+        #    params = {'leadershipId':leadershipId, 'stateId':stateId}
+        #    result = votesmart._apicall('Leadership.getCandidates', params)
+        #    return result['leaders']['leader']
             
     class local(object):
         @staticmethod
         def getCounties(stateId):
             params = {'stateId': stateId}
-            result = votesmart._apicall('getCounties', params)['counties']['county']
+            result = votesmart._apicall('Local.getCounties', params)
+            return [Locality(o) for o in result['counties']['county']]
             
         @staticmethod
         def getCities(stateId):
             params = {'stateId': stateId}
-            result = votesmart._apicall('getCities', params)['cities']['city']
+            result = votesmart._apicall('Local.getCities', params)
+            return [Locality(o) for o in result['cities']['city']]
             
         @staticmethod
         def getOfficials(localId):
             params = {'localId': localId}
-            result = votesmart._apicall('getOfficials', params)['candidateList']['candidate']
+            result = votesmart._apicall('Local.getOfficials', params)
+            return [Official(o) for o in result['candidateList']['candidate']]
         
     class measure(object):
         @staticmethod
         def getMeasuresByYearState(year, stateId):
             params = {'year':year, 'stateId':stateId}
-            result = votesmart._apicall('getMeasuresByYearState', params)['measures']['measure']
+            result = votesmart._apicall('Measure.getMeasuresByYearState', params)
+            return _result_to_obj(Measure, result['measures']['measure'])
             
         @staticmethod
         def getMeasure(measureId):
             params = {'measureId':measureId}
-            result = votesmart._apicall('getMeasure', params)['measure']
+            result = votesmart._apicall('Measure.getMeasure', params)
+            return MeasureDetail(result['measure'])
         
     class npat(object):
         @staticmethod
         def getNpat(candidateId):
             params = {'candidateId':candidateId}
-            result = votesmart._apicall('getNpat', params)['npat']
+            result = votesmart._apicall('Npat.getNpat', params)
+            return result['npat']
     
     class office(object):
         @staticmethod

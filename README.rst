@@ -49,7 +49,7 @@ Import ``votesmart`` from ``votesmart``:
     >>> from votesmart import votesmart
     
 And set your API key:
-    
+
     >>> votesmart.apikey = '496ec1875a7885ec65a4ead99579642c'
 
 ---------------
@@ -88,7 +88,7 @@ candidatebio methods
 
 Official API documentation at http://api.votesmart.org/docs/CandidateBio.html
 
-``getBio(candidateId)`` and getAddlBio(candidateId)`` get a Bio object and
+``getBio(candidateId)`` and ``getAddlBio(candidateId)`` get a Bio object and
 a series of AddlBio objects.
 
 Example of getting Nancy Pelosi's bio:
@@ -197,6 +197,8 @@ Civil Rights, and Civil Liberties:
 district methods
 ----------------
 
+Official API documentation at http://api.votesmart.org/docs/District.html
+
 ``getByOfficeState(officeId, stateId, districtName=None)`` gets a list of
 District objects matching the specified criteria.
 
@@ -222,38 +224,163 @@ Example of getting all House districts for North Carolina:
 election methods
 ----------------
 
+Official API documentation at 
+
+``getElection(electionId)`` fetches a single Election object by electionId.
+
+Example of getting details on NC 2008 Gubernatorial election:
+
+    >>> election = votesmart.election.getElection(684)
+    >>> print election.name
+    North Carolina Gubernatorial 2008
+    >>> for stage in election.stages:
+    ...     print stage.name, stage.electionDate
+    Primary 2008-05-06
+    General 2008-11-04
+
+
+``getElectionByYearState(year, stateId=None)`` gets all Election objects
+matching a given criteria.  If stateId is not specified it defaults to national
+elections.
+
+Example of getting details on all elections in North Carolina in 2008:
+
+    >>> for election in votesmart.election.getElectionByYearState(2008, 'NC'):
+    ...     print election
+    North Carolina Congressional 2008
+    North Carolina Gubernatorial 2008
+    North Carolina State Legislative 2008
+    North Carolina State Judicial 2008
+
+
+``getStageCandidates(electionId, stageId, party=None, districtId=None, stateId=None)``
+gets a list of StageCandidate objects matching the given criteria.
+
+Example of getting all North Carolina 2008 Gubernatorial primary candidates:
+
+    for candidate in votesmart.election.getStageCandidates(684, 'P')
+
 ------------------
 leadership methods
 ------------------
+
+Official API documentation at http://api.votesmart.org/docs/Leadership.html
+
+``getPositions(stateId=None, officeId=None)`` gets a list of LeadershipPosition
+objects matching the given criteria.
+
+Example of getting all Alaska leadership positions:
+
+    >>> for pos in votesmart.leadership.getPositions('AK'):
+    ...     print pos.officeName, pos.name
+    State House Speaker
+    State Senate President
+    State House Majority Leader
+    State Senate Majority Leader
+    State House Minority Leader
+    State Senate Minority Leader
 
 -------------
 local methods
 -------------
 
+Official API documentation at http://api.votesmart.org/docs/Local.html
+
+``getCounties(stateId)`` and ``getCities(stateId)`` return lists of counties or
+cities as Locality objects.
+
+Example of getting all cities in Alaska:
+
+    >>> for city in votesmart.local.getCities('AK'):
+    ...     print city.name, city.localId
+    Anchorage 1
+    Fairbanks 2
+    Juneau 4322
+    
+``getOfficials(localId)`` gets all Officials known for a given locality.
+
+Example of getting all officials from Anchorage, AK:
+
+    >>> for official in votesmart.local.getOfficials(1):
+    ...     print official
+    Mayor Mark Begich
+    Assembly Member Chris Birch
+    Assembly Member Matt Claman
+    Assembly Member Dan Coffey
+    Assembly Member Harriet Drummond
+    Assembly Member Patrick Flynn
+    Assembly Member Elvi Gray-Jackson
+    Assembly Member Mike Gutierrez
+    Assembly Member Jennifer Johnston
+    Assembly Member Debbie Ossiander
+    Assembly Member Sheila Selkregg
+    Assembly Member Bill Starr
+
 ---------------
 measure methods
 ---------------
 
--------------
-npath methods
--------------
+Official API documentation at http://api.votesmart.org/docs/Measure.html
+
+``getMeasuresByYearState(year, stateId)`` gets a list of Measure objects for
+the provided year and state.
+
+Example of getting all 2008 Maryland Ballot Measures:
+
+    >>> for measure in votesmart.measure.getMeasuresByYearState(2008, 'MD'):
+    ...     print measure.measureId, measure.title
+    1260 Video Lottery
+    1261 Early Voting
+
+``getMeasure(measureId)`` gets a MeasureDetail object providing more details
+about a particular measure.
+
+Example of getting more details on Maryland 2008 Early Voting measure:
+
+    >>> measure = votesmart.measure.getMeasure(1260)
+    >>> print measure.source       # just print the url -- summary is long
+    http://www.elections.state.md.us/elections/2008/questions/index.html
+
+------------
+npat methods
+------------
+
+Official API documentation at http://api.votesmart.org/docs/Npat.html
+
+NPATs are not converted into objects, the getNpat method is exceptional in that
+it returns a python dict representing the NPAT in question.
+
+Example of checking John McCain's NPAT:
+
+    >>> print votesmart.npat.getNpat(53270)['surveyMessage']
+    repeatedly refused to provide any responses to citizens on the issues through the 2008 Political Courage Test when asked to do so by national leaders of the political parties, prominent members of the media, Project Vote Smart President Richard Kimball, and Project Vote Smart staff.
 
 --------------
 office methods
 --------------
 
+Official API documentation at 
+
 -----------------
 officials methods
 -----------------
+
+Official API documentation at 
 
 --------------
 rating methods
 --------------
 
+Official API documentation at 
+
 -------------
 state methods
 -------------
 
+Official API documentation at 
+
 -------------
 votes methods
 -------------
+
+Official API documentation at 
