@@ -160,7 +160,7 @@ class BillDetail(VotesmartApiObject):
         self.sponsors = _result_to_obj(BillSponsor, sponsors['sponsor'])
         self.actions = _result_to_obj(BillAction, actions['action'])
         if amendments:
-            self.amendments = _result_to_obj(BillAmendment, actions['ammendment'])
+            self.amendments = _result_to_obj(BillAmendment, amendments['ammendment'])
         self.__dict__.update(d)
 
 class BillActionDetail(VotesmartApiObject):
