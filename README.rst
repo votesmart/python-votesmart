@@ -66,7 +66,6 @@ Example of getting Nancy Pelosi's office:
 
     >>> addr = votesmart.address.getOffice(26732)[0]
     >>> print addr.street, addr.city, addr.state
-    District Office
     450 Golden Gate Avenue
     14th Floor San Francisco CA
 
@@ -77,10 +76,10 @@ candidate id.
 Example of getting Nancy Pelosi's web addresses:
     >>> for x in votesmart.address.getOfficeWebAddress(26732):
     ...     print x
+    AmericanVoices@mail.house.gov
     http://speaker.house.gov/
     http://www.house.gov/pelosi/
     http://www.house.gov/pelosi/contact/contact.html
-    sf.nancy@mail.house.gov
 
 --------------------
 candidatebio methods
@@ -151,7 +150,7 @@ Example of getting all joint committees:
     ...     print c
     Joint Committee on Printing
     Joint Committee on Taxation
-    Joint Committee on the Library of Congress
+    Joint Committee on the Library
     Joint Economic Committee
 
 ``getCommittee(committeeId)`` get extended details on a committee in a
