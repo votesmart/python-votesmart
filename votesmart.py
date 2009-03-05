@@ -437,6 +437,12 @@ class votesmart(object):
                 
     class officials(object):
         @staticmethod
+        def getStatewide(stateId=None):
+            params = {'stateId': stateId}
+            result = votesmart._apicall('Officials.getStatewide', params)
+            return _result_to_obj(Official, result['candidateList']['candidate'])
+
+        @staticmethod
         def getByOfficeState(officeId, stateId=None):
             params = {'officeId':officeId, 'stateId': stateId}
             result = votesmart._apicall('Officials.getByOfficeState', params)
@@ -533,6 +539,12 @@ class votesmart(object):
             params = {'actionId':actionId, 'candidateId':candidateId}
             result = votesmart._apicall('Votes.getBillActionVoteByOfficial', params)
             return Vote(result['votes']['vote'])
+
+        @staticmethod
+        def getByBillNumber(billNumber):
+            params = {'billNumber': billNumber}
+            result = votesmart._apicall('Votes.getByBillNumber', params)
+            return _result_to_obj(Bill, result['bills']['bill'])
             
         @staticmethod
         def getBillsByCategoryYearState(categoryId, year, stateId=None):

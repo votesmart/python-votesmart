@@ -421,15 +421,16 @@ officials methods
 
 Official API documentation at http://api.votesmart.org/docs/Officials.html
 
+* ``getStatewide(stateId=None)``
 * ``getByOfficeState(officeId, stateId=None)``
 * ``getByLastname(lastName)``
 * ``getByLevenstein(lastName)``
 * ``getByElection(electionId)``
 * ``getByDistrict(districtId)``
 
-All five methods return a list containing one or more Candidate objects.
+All officials methods return a list containing one or more Candidate objects.
 
-Example of fetching all candidates for the MN Senate race:
+Example of fetching all senators from California.
 
     >>> for official in votesmart.officials.getByOfficeState(6, 'CA'):
     ...    print official
@@ -567,8 +568,9 @@ Example of getting Nancy Pelosi's vote on passage of HR 7321:
     Pelosi, Nancy: Yea
 
 
-There are 7 methods that return Bill objects based on various parameters:
+There are 8 methods that return Bill objects based on various parameters:
 
+* ``getByBillNumber(billNumber)``
 * ``getBillsByCategoryYearState(categoryId, year, stateId=None)``
 * ``getBillsByYearState(year, stateId=None)``
 * ``getBillsByOfficialYearOffice(candidateId, year, officeId=None)``

@@ -1,6 +1,10 @@
 python-votesmart changelog
 ==========================
 
+dev
+-----
+* new votes.getByBillNumber and officials.getStatewide methods
+
 0.2.1
 -----
 * fixes to places where PVS returns single items where lists are expected
