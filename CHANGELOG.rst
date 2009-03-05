@@ -4,6 +4,7 @@ python-votesmart changelog
 dev
 -----
 * new votes.getByBillNumber and officials.getStatewide methods
+* Fixed __repr__ so that eval(repr(obj)) == obj for all VotesmartApiObjects
 
 0.2.1
 -----

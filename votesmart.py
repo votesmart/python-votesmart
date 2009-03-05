@@ -22,13 +22,19 @@ class VotesmartApiError(Exception):
 class VotesmartApiObject(object):
     def __init__(self, d):
         self.__dict__ = d
+
+    def __repr__(self):
+        return '%s(%r)' % (self.__class__.__name__, self.__dict__)
         
 class Address(object):
     def __init__(self, d):
         self.__dict__.update(d['address'])
         self.__dict__.update(d['phone'])
         self.__dict__.update(d['notes'])
-    
+
+    def __repr__(self):
+        return '%s(%r)' % (self.__class__.__name__, self.__dict__)
+
 class WebAddress(VotesmartApiObject):
     def __str__(self):
         return self.webAddress
@@ -38,6 +44,9 @@ class Bio(object):
         #self.__dict__.update(d['election'])
         #self.__dict__.update(d['office'])
         self.__dict__.update(d['candidate'])
+
+    def __repr__(self):
+        return '%s(%r)' % (self.__class__.__name__, self.__dict__)
     
 class AddlBio(VotesmartApiObject):
     def __str__(self):
@@ -170,7 +179,7 @@ class BillActionDetail(VotesmartApiObject):
 class Bill(VotesmartApiObject):
     def __str__(self):
         return ' '.join((self.billNumber, self.title))
-        
+
 class Vote(VotesmartApiObject):
     def __str__(self):
         return ': '.join((self.candidateName, self.action))
