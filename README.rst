@@ -112,8 +112,9 @@ Official API documentation at http://api.votesmart.org/docs/Candidates.html
 * ``getByLevenstein(lastName, electionYear=None)``
 * ``getByElection(electionId)``
 * ``getByDistrict(districtId, electionYear=None)``
+* ``getByZip(zip5, zip4=None)``
 
-All five methods return a list containing one or more Candidate objects.
+All six methods return a list containing one or more Candidate objects.
 
 Example of fetching all candidates for the MN Senate race:
 
@@ -198,7 +199,7 @@ district methods
 
 Official API documentation at http://api.votesmart.org/docs/District.html
 
-``getByOfficeState(officeId, stateId, districtName=None)`` gets a list of
+``getByOfficeState(officeId, stateId, districtName=None)`` and ``getByZip(zip5, zip4=None)`` return a list of
 District objects matching the specified criteria.
 
 Example of getting all House districts for North Carolina:
@@ -238,7 +239,7 @@ Example of getting details on NC 2008 Gubernatorial election:
     General 2008-11-04
 
 
-``getElectionByYearState(year, stateId=None)`` gets all Election objects
+``getElectionByYearState(year, stateId=None)`` and ``getElectionByZip(zip5, zip4=None, year=None)`` get all Election objects
 matching a given criteria.  If stateId is not specified it defaults to national
 elections.
 
@@ -427,6 +428,7 @@ Official API documentation at http://api.votesmart.org/docs/Officials.html
 * ``getByLevenstein(lastName)``
 * ``getByElection(electionId)``
 * ``getByDistrict(districtId)``
+* ``getByZip(zip5, zip4=None)``
 
 All officials methods return a list containing one or more Candidate objects.
 
