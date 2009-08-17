@@ -5,8 +5,8 @@
     assignments, and much more.
 """
 
-__author__ = "James Turk (jturk@sunlightfoundation.com)"
-__version__ = "0.2.1"
+__author__ = "James Turk <jturk@sunlightfoundation.com>"
+__version__ = "0.2.2"
 __copyright__ = "Copyright (c) 2009 Sunlight Labs"
 __license__ = "BSD"
 
@@ -41,9 +41,9 @@ class WebAddress(VotesmartApiObject):
     
 class Bio(object):
     def __init__(self, d):
-        #self.__dict__.update(d['election'])
+        self.__dict__.update(d['election'])
         #self.__dict__.update(d['office'])
-        self.__dict__.update(d['candidate'])
+        #self.__dict__.update(d['candidate'])
 
     def __repr__(self):
         return '%s(%r)' % (self.__class__.__name__, self.__dict__)
