@@ -1,10 +1,12 @@
 python-votesmart changelog
 ==========================
 
-dev
+0.3.0
 -----
 * new votes.getByBillNumber and officials.getStatewide methods
 * Fixed __repr__ so that eval(repr(obj)) == obj for all VotesmartApiObjects
+* zip code lookup methods (contributed by Michael Stephens)
+* fix bugs in installation and elections with a single stage (thanks slinkp)
 
 0.2.1
 -----

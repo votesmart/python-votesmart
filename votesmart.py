@@ -6,7 +6,7 @@
 """
 
 __author__ = "James Turk <jturk@sunlightfoundation.com>"
-__version__ = "0.2.2"
+__version__ = "0.3.0"
 __copyright__ = "Copyright (c) 2009 Sunlight Labs"
 __license__ = "BSD"
 
@@ -41,9 +41,9 @@ class WebAddress(VotesmartApiObject):
     
 class Bio(object):
     def __init__(self, d):
-        self.__dict__.update(d['election'])
+        #self.__dict__.update(d['election'])
         #self.__dict__.update(d['office'])
-        #self.__dict__.update(d['candidate'])
+        self.__dict__.update(d['candidate'])
 
     def __repr__(self):
         return '%s(%r)' % (self.__class__.__name__, self.__dict__)
@@ -78,10 +78,10 @@ class District(VotesmartApiObject):
     
 class Election(VotesmartApiObject):
     def __init__(self, d):
-        stages = [ElectionStage(s) for s in d.pop('stage')]
+        stages = d.pop('stage')
         self.__dict__ = d
-        self.stages = stages
-    
+        self.stages = _result_to_obj(ElectionStage, stages)
+
     def __str__(self):
         return self.name
     
