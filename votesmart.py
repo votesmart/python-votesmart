@@ -299,6 +299,12 @@ class votesmart(object):
             params = {'districtId': districtId, 'electionYear':electionYear}
             result = votesmart._apicall('Candidates.getByDistrict', params)
             return _result_to_obj(Candidate, result['candidateList']['candidate'])
+
+        @staticmethod
+        def getByZip(zip5, zip4=None):
+            params = {'zip4': zip4, 'zip5': zip5}
+            result = votesmart._apicall('Candidates.getByZip', params)
+            return _result_to_obj(Candidate, result['candidateList']['candidate'])
         
     class committee(object):
         @staticmethod
@@ -330,6 +336,12 @@ class votesmart(object):
             params = {'officeId':officeId, 'stateId': stateId, 'districtName': districtName}
             result = votesmart._apicall('District.getByOfficeState', params)
             return _result_to_obj(District, result['districtList']['district'])
+
+        @staticmethod
+        def getByZip(zip5, zip4=None):
+            params = {'zip5': zip5, 'zip4': zip4}
+            result = votesmart._apicall('District.getByZip', params)
+            return _result_to_obj(District, result['districtList']['district'])
     
     class election(object):
         @staticmethod
@@ -342,6 +354,12 @@ class votesmart(object):
         def getElectionByYearState(year, stateId=None):
             params = {'year':year, 'stateId':stateId}
             result = votesmart._apicall('Election.getElectionByYearState', params)
+            return _result_to_obj(Election, result['elections']['election'])
+
+        @staticmethod
+        def getElectionByZip(zip5, zip4=None, year=None):
+            params = {'zip5': zip5, 'zip4': zip4, 'year': year}
+            result = votesmart._apicall('Election.getElectionByZip', params)
             return _result_to_obj(Election, result['elections']['election'])
             
         #@staticmethod
@@ -479,6 +497,12 @@ class votesmart(object):
         def getByDistrict(districtId):
             params = {'districtId':districtId}
             result = votesmart._apicall('Officials.getByDistrict', params)
+            return _result_to_obj(Official, result['candidateList']['candidate'])
+
+        @staticmethod
+        def getByZip(zip5, zip4=None):
+            params = {'zip4': zip4, 'zip5': zip5}
+            result = votesmart._apicall('Officials.getByZip', params)
             return _result_to_obj(Official, result['candidateList']['candidate'])
     
     class rating(object):
