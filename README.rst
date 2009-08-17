@@ -116,13 +116,33 @@ Official API documentation at http://api.votesmart.org/docs/Candidates.html
 
 All six methods return a list containing one or more Candidate objects.
 
-Example of fetching all candidates for the MN Senate race:
+Example of fetching all candidates for the NJ Gubernatorial race:
 
-    >>> for candidate in votesmart.candidates.getByOfficeState(6, 'MN'):
+    >>> for candidate in votesmart.candidates.getByOfficeState(3, 'NJ'):
     ...    print candidate
-    Norm Coleman
-    Al Franken
+    Christopher Christie
+    Christopher Christie
+    Jon Corzine
+    Jon Corzine
+    Jason Cullen
+    Christopher Daggett
+    Kenneth Kaplan
+    Joshua Leinsdorf
+    Brian Levine
+    Alvin Lindsay
+    David Meiswinkle
+    Richard Merkt
+    Gregory Pason
+    Kostas Petris
+    Gary Steele
+    Gary Stein
 
+You will notice that several candidates appear twice, this is due to an
+unfortunate issue with the Vote Smart API where candidates with multiple
+parties, or election statuses are duplicated.  Be careful when consuming
+candidate data to dedupe using the fields you find useful.
+
+(See http://github.com/sunlightlabs/python-votesmart/issues/closed/#issue/1)
 
 -----------------
 committee methods
@@ -180,18 +200,21 @@ Civil Rights, and Civil Liberties:
     >>> for member in votesmart.committee.getCommitteeMembers(4015):
     ...     print member
     Representative Jerrold Nadler
-    Representative Trent Franks
+    Representative James Sensenbrenner
+    Representative Tammy Baldwin
     Representative Stephen Cohen
     Representative John Conyers
-    Representative Artur Davis
-    Representative Keith Ellison
+    Representative William Delahunt
+    Representative Trent Franks
+    Representative Louie Gohmert
     Representative Darrell Issa
     Representative James Jordan
     Representative Steve King
-    Representative Mike Pence
+    Representative Tom Rooney
     Representative Robert Scott
-    Representative Debbie Wasserman Schultz
+    Representative Brad Sherman
     Representative Melvin Watt
+
 
 ----------------
 district methods
