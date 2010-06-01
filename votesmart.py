@@ -361,22 +361,23 @@ class votesmart(object):
             params = {'zip5': zip5, 'zip4': zip4, 'year': year}
             result = votesmart._apicall('Election.getElectionByZip', params)
             return _result_to_obj(Election, result['elections']['election'])
-            
-        #@staticmethod
-        #def getStageCandidates(electionId, stageId,
-        #                       party=None, districtId=None, stateId=None):
-        #    params = {'electionId':electionId, 'stageId':stageId, 'party':party,
-        #              'districtId':districtId, 'stateId':stateId}
-        #    result = votesmart._apicall('Election.getElectionByYearState', params)
-        #    ['stageCandidates']['candidate']
-        
+
+        @staticmethod
+        def getStageCandidates(electionId, stageId, party=None,
+                               districtId=None, stateId=None):
+            params = {'electionId':electionId, 'stageId':stageId,
+                      'party':party, 'districtId':districtId, 'stateId':stateId}
+            result = votesmart._apicall('Election.getStageCandidates', params)
+            return _result_to_obj(Candidate, result['stageCandidates']['candidate'])
+
+
     class leadership(object):
         @staticmethod
         def getPositions(stateId=None, officeId=None):
             params = {'stateId':stateId, 'officeId':officeId}
             result = votesmart._apicall('Leadership.getPositions', params)
             return _result_to_obj(LeadershipPosition, result['leadership']['position'])
-                
+
         #@staticmethod
         #def getCandidates(leadershipId, stateId=None):
         #    params = {'leadershipId':leadershipId, 'stateId':stateId}
