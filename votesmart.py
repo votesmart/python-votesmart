@@ -78,9 +78,10 @@ class District(VotesmartApiObject):
     
 class Election(VotesmartApiObject):
     def __init__(self, d):
-        stages = d.pop('stage')
+        stages = d.pop('stage', None)
         self.__dict__ = d
-        self.stages = _result_to_obj(ElectionStage, stages)
+        if stages:
+            self.stages = _result_to_obj(ElectionStage, stages)
 
     def __str__(self):
         return self.name
