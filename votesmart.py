@@ -214,7 +214,7 @@ class votesmart(object):
             else:
                 return obj
         except urllib2.HTTPError, e:
-            raise VotesmartApiError(e.read())
+            raise VotesmartApiError(e)
         except ValueError, e:
             raise VotesmartApiError('Invalid Response')
 
