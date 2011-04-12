@@ -50,7 +50,7 @@ Import ``votesmart`` from ``votesmart``:
     
 And set your API key:
 
-    >>> votesmart.apikey = '<<SET API KEY HERE>>'
+    >>> votesmart.apikey = '<YOUR KEY>'
 
 ---------------
 address methods
@@ -66,8 +66,7 @@ Example of getting Nancy Pelosi's office:
 
     >>> addr = votesmart.address.getOffice(26732)[0]
     >>> print addr.street, addr.city, addr.state
-    450 Golden Gate Avenue
-    14th Floor San Francisco CA
+    235 Cannon House Office Building Washington DC
 
 ``getCampaignWebAddress(candidateId)`` and ``getOfficeWebAddress(candidateId)``
 return a list of ``WebAddress`` objects based on the provided election or
@@ -76,10 +75,9 @@ candidate id.
 Example of getting Nancy Pelosi's web addresses:
     >>> for x in votesmart.address.getOfficeWebAddress(26732):
     ...     print x
-    AmericanVoices@mail.house.gov
-    http://speaker.house.gov/
+    https://pelosi.house.gov/contact/email-me.shtml
     http://www.house.gov/pelosi/
-    http://www.house.gov/pelosi/contact/contact.html
+    AmericanVoices@mail.house.gov
 
 --------------------
 candidatebio methods
@@ -180,16 +178,8 @@ CommitteeDetail object.
 Example of getting details on the House Ways & Means committee:
 
     >>> committee = votesmart.committee.getCommittee(23)
-    >>> print committee.jurisdiction
-    1. Customs revenue, collection districts, and ports of entry and delivery. 
-    2. Reciprocal trade agreements. 
-    3. Revenue measures generally. 
-    4. Revenue measures relating to insular possessions. 
-    5. Bonded debt of the United States, subject to the last sentence of clause 4(f). 
-    6. Deposit of public monies. 
-    7. Transportation of dutiable goods. 
-    8. Tax exempt foundations and charitable trusts. 
-    9. National social security (except health care and facilities programs that are supported from general revenues as opposed to payroll deductions and except work incentive programs).
+    >>> print committee
+    Ways and Means
 
 ``getCommitteeMembers(committeeId)`` gets a list of CommitteeMember objects
 representing members of the given committee.
@@ -199,21 +189,16 @@ Civil Rights, and Civil Liberties:
 
     >>> for member in votesmart.committee.getCommitteeMembers(4015):
     ...     print member
-    Representative Jerrold Nadler
-    Representative James Sensenbrenner
-    Representative Tammy Baldwin
-    Representative Stephen Cohen
-    Representative John Conyers
-    Representative William Delahunt
     Representative Trent Franks
-    Representative Louie Gohmert
-    Representative Darrell Issa
+    Representative Mike Pence
+    Representative Steven Chabot
+    Representative John Conyers
+    Representative James Randy Forbes
     Representative James Jordan
     Representative Steve King
-    Representative Tom Rooney
+    Representative Jerrold Nadler
+    Representative Mike Quigley
     Representative Robert Scott
-    Representative Brad Sherman
-    Representative Melvin Watt
 
 
 ----------------
@@ -229,19 +214,19 @@ Example of getting all House districts for North Carolina:
 
     >>> for district in votesmart.district.getByOfficeState(5, 'NC'):
     ...     print district
-    District 1
-    District 2
-    District 3
-    District 4
-    District 5
-    District 6
-    District 7
-    District 8
-    District 9
-    District 10
-    District 11
-    District 12
-    District 13
+    1
+    2
+    3
+    4
+    5
+    6
+    7
+    8
+    9
+    10
+    11
+    12
+    13
 
 ----------------
 election methods
@@ -298,10 +283,10 @@ Example of getting all Alaska leadership positions:
     ...     print pos.officeName, pos.name
     State House Speaker
     State Senate President
-    State House Majority Leader
     State Senate Majority Leader
-    State House Minority Leader
+    State House Majority Leader
     State Senate Minority Leader
+    State House Minority Leader
 
 -------------
 local methods
@@ -324,20 +309,9 @@ Example of getting all cities in Alaska:
 
 Example of getting all officials from Anchorage, AK:
 
-    >>> for official in votesmart.local.getOfficials(1):
+    >>> for official in votesmart.local.getOfficials(1)[0:1]:
     ...     print official
     Mayor Mark Begich
-    Assembly Member Chris Birch
-    Assembly Member Matt Claman
-    Assembly Member Dan Coffey
-    Assembly Member Harriet Drummond
-    Assembly Member Patrick Flynn
-    Assembly Member Elvi Gray-Jackson
-    Assembly Member Mike Gutierrez
-    Assembly Member Jennifer Johnston
-    Assembly Member Debbie Ossiander
-    Assembly Member Sheila Selkregg
-    Assembly Member Bill Starr
 
 ---------------
 measure methods
@@ -376,9 +350,10 @@ it returns a python dict representing the NPAT in question.
 Example of checking John McCain's NPAT:
 
     >>> print votesmart.npat.getNpat(53270)['surveyMessage']
-    repeatedly refused to provide any responses to citizens on the issues through the 2008 Political Courage Test when asked to do so by national leaders of the political parties, prominent members of the media, Project Vote Smart President Richard Kimball, and Project Vote Smart staff.
+    refused  to tell citizens where he/she stands on any of the issues addressed in the 2010 Political Courage Test, despite repeated requests from Vote Smart, national media, and prominent political leaders.
 
---------------
+
+--e-----------
 office methods
 --------------
 
@@ -438,6 +413,7 @@ Example of getting all Executive titles for the Local level:
     Public Advocate
     Council
     Comptroller
+    Village Manager
 
 -----------------
 officials methods
@@ -490,11 +466,12 @@ Example of getting a few groups concerned with Environmental Issues:
 
     >>> for sig in votesmart.rating.getSigList(30)[0:5]:
     ...     print sig
-    916: American Land Rights Association
     934: American Lands Alliance
     1081: American Wilderness Coalition
     1702: American Wind Energy Association
     1107: California Park & Recreation Society
+    292: Citizens for Health - Food, Water & Ecological Health Rating
+
 
 ``getSig(sigId)`` gets all details available for a special interest group.
 
@@ -511,7 +488,6 @@ Example checking how Sierra Club rated Nancy Pelosi:
 
     >>> for rating in votesmart.rating.getCandidateRating(26732, 657):
     ...     print rating
-    Representative Nancy Pelosi supported the interests of the Sierra Club 100 percent in 2003.
 
 -------------
 state methods
@@ -538,7 +514,7 @@ Example of getting several details about the state of Virginia:
 
     >>> va = votesmart.state.getState('VA')
     >>> print va.population, va.motto
-    6,187,358 (1990) Sic Semper Tyrannis [Thus Always to Tyrants]
+    7,882,590 (2009) Sic Semper Tyrannis [Thus Always to Tyrants]
 
 -------------
 votes methods
@@ -572,6 +548,7 @@ Example of getting details on HR 7321 Auto Industry Financing bill:
     Barney  Frank
     >>> for action in bill.actions:
     ...     print action
+    2008-12-10 - Introduced
     2008-12-10 - Passage
     
 
@@ -608,11 +585,11 @@ Example of getting a few recently tracked bills for 2008:
 
     >>> for bill in votesmart.votes.getBillsByYearState(2008)[-5:]:
     ...     print bill
-    HR 7081 
-    HR 2095 Amtrak Reauthorization
-    HR 2095 
-    HR 6867 Emergency Extended Unemployment Compensation
-    HR 7321 Auto Industry Financing
+    HR 3997 Financial Asset Purchase Authority
+    HR 7321 Automotive Industry Financing
+    H Res 982 Contempt Charges
+    HR 5501 Funding to Combat AIDS, Malaria, and Tuberculosis
+    HR 415 Adding Parts of the Taunton River to the National Wild and Scenic Rivers System
 
 
 ``getVetoes(candidateId)`` returns all vetoes for a particular executive.

@@ -166,11 +166,11 @@ class BillDetail(VotesmartApiObject):
     def __init__(self, d):
         sponsors = d.pop('sponsors')
         actions = d.pop('actions')
-        amendments = d.pop('ammendments')  # ammendments -- sic
+        amendments = d.pop('amendments')  # ammendments -- sic
         self.sponsors = _result_to_obj(BillSponsor, sponsors['sponsor'])
         self.actions = _result_to_obj(BillAction, actions['action'])
         if amendments:
-            self.amendments = _result_to_obj(BillAmendment, amendments['ammendment'])
+            self.amendments = _result_to_obj(BillAmendment, amendments['amendment'])
         self.__dict__.update(d)
 
 class BillActionDetail(VotesmartApiObject):
@@ -268,7 +268,7 @@ class votesmart(object):
             params = {'candidateId': candidateId}
             result = votesmart._apicall('CandidateBio.getAddlBio', params)
             return _result_to_obj(AddlBio,
-                                  result['addlbio']['additional']['item'])
+                                  result['addlBio']['additional']['item'])
 
     class candidates(object):
         @staticmethod
