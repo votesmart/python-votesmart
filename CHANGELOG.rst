@@ -1,6 +1,10 @@
 python-votesmart changelog
 ==========================
 
+0.3.1
+-----
+* some bugfixes related to changes in votesmart API
+
 0.3.0
 -----
 * new votes.getByBillNumber and officials.getStatewide methods

@@ -6,7 +6,7 @@
 """
 
 __author__ = "James Turk <jturk@sunlightfoundation.com>"
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 __copyright__ = "Copyright (c) 2009 Sunlight Labs"
 __license__ = "BSD"
 
