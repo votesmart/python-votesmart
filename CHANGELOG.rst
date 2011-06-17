@@ -1,6 +1,10 @@
 python-votesmart changelog
 ==========================
 
+0.3.2
+-----
+* workaround for bugged responses from votesmart API with blank strings
+
 0.3.1
 -----
 * some bugfixes related to changes in votesmart API
