@@ -193,7 +193,8 @@ def _result_to_obj(cls, result):
     if isinstance(result, dict):
         return [cls(result)]
     else:
-        return [cls(o) for o in result]
+        # the if o predicate is important, sometimes they return empty strings
+        return [cls(o) for o in result if o]
 
 class votesmart(object):
 
