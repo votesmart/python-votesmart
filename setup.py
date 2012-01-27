@@ -3,7 +3,7 @@ from distutils.core import setup
 long_description = open('README.rst').read()
 
 setup(name="python-votesmart",
-      version="0.3.2",
+      version="0.3.3",
       py_modules=["votesmart"],
       description="Libraries for interacting with the Project Vote Smart API",
       author="James Turk <jturk@sunlightfoundation.com>",
