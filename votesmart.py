@@ -534,7 +534,7 @@ class votesmart(object):
             return SigDetail(result['sig'])
 
         @staticmethod
-        def getCandidateRating(candidateId, sigId):
+        def getCandidateRating(candidateId, sigId=None):
             params = {'candidateId':candidateId, 'sigId':sigId}
             result = votesmart._apicall('Rating.getCandidateRating', params)
             return _result_to_obj(Rating, result['candidateRating']['rating'])
