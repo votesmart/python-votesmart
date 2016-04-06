@@ -6,8 +6,8 @@
 """
 
 __author__ = "James Turk <jturk@sunlightfoundation.com>"
-__version__ = "0.3.3"
-__copyright__ = "Copyright (c) 2012 Sunlight Labs"
+__version__ = "0.3.4"
+__copyright__ = "Copyright (c) 2016 Project Vote Smart"
 __license__ = "BSD"
 
 import urllib, urllib2
