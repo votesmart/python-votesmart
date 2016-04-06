@@ -450,7 +450,7 @@ class votesmart(object):
 
         @staticmethod
         def getOfficesByType(typeId):
-            params = {'typeId':typeId}
+            params = {'officeTypeId':typeId}
             result = votesmart._apicall('Office.getOfficesByType', params)
             return _result_to_obj(Office, result['offices']['office'])
 
